@@ -26,9 +26,9 @@ export function saveTraineeData(trainees) {
 
 export function loadCourseData() {
   // Use the fs module to read the courses.json file and return the data as a JavaScript object
-  const data = fs.readFileSync(COURSE_DATA_FILE_PATH, 'utf-8').split('\n').filter(line => line.trim() !== '').join('');
-  const parsedData = JSON.parse(data);
-  console.log('Course data loaded successfully.',parsedData);
+  const data = fs.readFileSync(COURSE_DATA_FILE_PATH, 'utf-8').trim();
+  const parsedData = data ? JSON.parse(data) : [];
+  // console.log('Course data loaded successfully.',parsedData);
   return parsedData;
 }
 
