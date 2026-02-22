@@ -1,45 +1,100 @@
 import { saveTraineeData, loadTraineeData } from './storage.js';
 
-export function addTrainee(name, email) {
+export function addTrainee(firstName, lastName) {
+  if (!firstName || !lastName) {
+    console.log(
+      'Error: firstName and lastName are required. Usage: trainee add <firstName> <lastName>'
+    );
+    return;
+  }
+
   const trainees = loadTraineeData();
   let id;
-  
+
   if (trainees.length > 0) {
-    //add 1 to the last id in the array to get the new id
+    // Add 1 to the last id in the array to get the new id
     id = trainees[trainees.length - 1].id + 1;
   } else {
     id = 1;
   }
-  
-  //create a new trainee object with the generated id, name, and email
-  const newTrainee = { id: id, name: name, email: email };
-  //save the new trainee to the data store by adding it to the existing array of trainees
+
+  // Create a new trainee object with the generated id, firstName, and lastName
+  firstName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
+  lastName = lastName.charAt(0).toUpperCase() + lastName.slice(1);
+  const newTrainee = { id, firstName, lastName };
+  // Save the new trainee to the data store by adding it to the existing array of trainees
   saveTraineeData([...trainees, newTrainee]);
+  console.log(`✅ Trainee "${firstName} ${lastName}" added with ID ${id}`);
 }
 
-export function updateTrainee(id, name, email) {
+export function updateTrainee(id, firstName, lastName) {
+  if (!id || !firstName || !lastName) {
+    console.log(
+      'Error: id, firstName and lastName are required. Usage: trainee update <id> <firstName> <lastName>'
+    );
+    return;
+  }
+
   const trainees = loadTraineeData();
-  //map() = "Transform each item in the array and return a new array"
-  const updatedTrainees = trainees.map(trainee => {
-    // If the trainee's id matches the provided id, update its name and email
+  const exists = trainees.find((trainee) => trainee.id === parseInt(id));
+
+  if (!exists) {
+    console.log(`Trainee with ID ${id} not found.`);
+    return;
+  }
+
+  // map() = "Transform each item in the array and return a new array"
+  const updatedTrainees = trainees.map((trainee) => {
+    // If the trainee's id matches the provided id, update its firstName and lastName
     if (trainee.id === parseInt(id)) {
-      return { id: trainee.id, name, email };
+      firstName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
+      lastName = lastName.charAt(0).toUpperCase() + lastName.slice(1);
+      return { id: trainee.id, firstName, lastName };
     }
     return trainee;
   });
+
   saveTraineeData(updatedTrainees);
+  console.log(`✅ Trainee with ID ${id} updated to "${firstName} ${lastName}"`);
 }
 
 export function deleteTrainee(id) {
+  if (!id) {
+    console.log('Error: id is required. Usage: trainee delete <id>');
+    return;
+  }
+
   const trainees = loadTraineeData();
-  //filter() = "Keep items where condition is TRUE"
-  const updatedTrainees = trainees.filter(trainee => trainee.id !== parseInt(id));
+  const exists = trainees.find((trainee) => trainee.id === parseInt(id));
+
+  if (!exists) {
+    console.log(`Trainee with ID ${id} not found.`);
+    return;
+  }
+
+  // filter() = "Keep items where condition is TRUE"
+  const updatedTrainees = trainees.filter(
+    (trainee) => trainee.id !== parseInt(id)
+  );
   saveTraineeData(updatedTrainees);
+  console.log(`✅ Trainee with ID ${id} deleted.`);
 }
 
 export function fetchTrainee(id) {
+  if (!id) {
+    console.log('Error: id is required. Usage: trainee fetch <id>');
+    return null;
+  }
+
   const trainees = loadTraineeData();
-  return trainees.find(trainee => trainee.id === parseInt(id));
+  const trainee = trainees.find((trainee) => trainee.id === parseInt(id));
+
+  if (!trainee) {
+    console.log(`Trainee with ID ${id} not found.`);
+    return null;
+  }
+
+  return trainee;
 }
 
 export function fetchAllTrainees() {
@@ -62,7 +117,9 @@ export function handleTraineeCommand(subcommand, args) {
     case 'fetchAll':
       return fetchAllTrainees();
     default:
-      console.log('Invalid subcommand for trainee. Please use add, update, delete, fetch, or fetchAll.');
+      console.log(
+        'Invalid subcommand for trainee. Please use add, update, delete, fetch, or fetchAll.'
+      );
       return null;
   }
 }
