@@ -36,14 +36,21 @@ function addCourse(name, startDate) {
 
   if (courses.length > 0) {
     // Add 1 to the last id in the array to get the new id
-    id = courses[courses.length - 1].id + 1;
+    id = courses.at(-1).id + 1;
   } else {
     id = 1;
   }
 
   // Create a new course object with the provided id, name, startDate, and empty participants
   name = name.charAt(0).toUpperCase() + name.slice(1);
-  const newCourse = { id: parseInt(id), name, startDate, participants: [] };
+
+  const newCourse = {
+    id: parseInt(id),
+    name,
+    startDate,
+    participants: [],
+  };
+
   // Save the new course to the data store by adding it to the existing array of courses
   saveCourseData([...courses, newCourse]);
   console.log(`✅ Course "${name}" added with ID ${id}`);
@@ -222,5 +229,3 @@ export {
   joinCourse,
   leaveCourse,
 };
-
-

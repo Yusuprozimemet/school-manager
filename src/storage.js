@@ -21,28 +21,24 @@ const COURSE_DATA_FILE_PATH = path.join(
 );
 
 export function loadTraineeData() {
-  // Use the fs module to read the trainees.json file and return the data as a JavaScript object
   const data = fs.readFileSync(TRAINEE_DATA_FILE_PATH, 'utf-8').trim();
   const parsedData = data ? JSON.parse(data) : [];
   return parsedData;
 }
 
 export function saveTraineeData(trainees) {
-  // Use the fs module to write the updated trainee data back to the trainees.json file
   const data = JSON.stringify(trainees, null, 2);
   fs.writeFileSync(TRAINEE_DATA_FILE_PATH, data, 'utf-8');
   console.log('Trainee data saved successfully.');
 }
 
 export function loadCourseData() {
-  // Use the fs module to read the courses.json file and return the data as a JavaScript object
   const data = fs.readFileSync(COURSE_DATA_FILE_PATH, 'utf-8').trim();
   const parsedData = data ? JSON.parse(data) : [];
   return parsedData;
 }
 
 export function saveCourseData(courses) {
-  // Use the fs module to write the updated course data back to the courses.json file
   const data = JSON.stringify(courses, null, 2);
   fs.writeFileSync(COURSE_DATA_FILE_PATH, data, 'utf-8');
   console.log('Course data saved successfully.');

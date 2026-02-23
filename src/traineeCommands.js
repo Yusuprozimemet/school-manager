@@ -13,7 +13,7 @@ export function addTrainee(firstName, lastName) {
 
   if (trainees.length > 0) {
     // Add 1 to the last id in the array to get the new id
-    id = trainees[trainees.length - 1].id + 1;
+    id = trainees.at(-1).id + 1;
   } else {
     id = 1;
   }
@@ -123,5 +123,3 @@ export function handleTraineeCommand(subcommand, args) {
       return null;
   }
 }
-
-
