@@ -1,14 +1,15 @@
 import { parseCommand } from './command-parser.js';
 import { handleCourseCommand } from './courseCommands.js';
 import { handleTraineeCommand } from './traineeCommands.js';
-import * as readline from 'readline';
+import * as readline from 'readline'; // Use ES module syntax for readline
+import { fileURLToPath } from 'url'; // Needed to get __filename in ES modules
 
 const rl = readline.createInterface({
-  input: process.stdin, // Reads from standard input (keyboard/terminal)
-  output: process.stdout, // Writes prompts/output to standard output (terminal)
+  input: process.stdin, // Use process.stdin for input
+  output: process.stdout, // Use process.stdout for output
 });
 
-function showHelp() {
+export function showHelp() {
   console.log(`
 ╬══════════════════════════════════════════════════════╗
 ║              School Manager CLI - Help               ║
@@ -36,51 +37,49 @@ OTHER:
   `);
 }
 
-function prompt() {
-  rl.question('Enter command: ', (answer) => {
+export function prompt(customRl) {
+  const rlToUse = customRl || rl; // Use the provided readline interface or the default one
+  rlToUse.question('Enter command: ', (answer) => {
     try {
-      // Clean the input
       let input = answer.trim();
 
-      // Exit
       if (input === 'exit') {
         console.log('Goodbye!');
-        rl.close();
+        rlToUse.close();
         return;
       }
 
-      // Help
       if (input === 'help') {
         showHelp();
-        prompt(); // Ask again
+        prompt(rlToUse);
         return;
       }
 
-      // Parse and run command
       let cmd = parseCommand(input);
 
       let result;
-      if (cmd.command === 'course') {
-        result = handleCourseCommand(cmd.subcommand, cmd.args);
-      } else if (cmd.command === 'trainee') {
-        result = handleTraineeCommand(cmd.subcommand, cmd.args);
+      if (cmd.entity === 'course') {
+        result = handleCourseCommand(cmd.action, cmd.args);
+      } else if (cmd.entity === 'trainee') {
+        result = handleTraineeCommand(cmd.action, cmd.args);
       } else {
         console.log('❌ Wrong command. Type "help"');
       }
 
-      // Show result if we have one
       if (result) console.log(result);
 
-      // Ask for next command
-      prompt();
+      prompt(rlToUse);
     } catch (error) {
       console.log('😅 Something went wrong! Try again.');
-      prompt(); // Ask again
+      prompt(rlToUse);
     }
   });
 }
 
-console.log(`
+// Only run CLI when this file is executed directly
+const __filename = fileURLToPath(import.meta.url);
+if (process.argv[1] === __filename) {
+  console.log(`
 ╬═══════════════════════════════════════════════════════╗
 ║                                                       ║
 ║        🎓  School Manager CLI  🎓                     ║
@@ -93,4 +92,5 @@ console.log(`
 ╚═══════════════════════════════════════════════════════╝
 `);
 
-prompt();
+  prompt();
+}
