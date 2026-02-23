@@ -223,27 +223,4 @@ export {
   leaveCourse,
 };
 
-/*
-console.log(getAllCourses())
-addCourse("Machine learning", "2024-02-01");
-const newCourseId = getAllCourses()[getAllCourses().length - 1].id;  
-console.log('Added:', getCourse(newCourseId));
-console.log('After new course is added :',getAllCourses())
 
-updateCourse(newCourseId, "Python Course", "2024-02-06");  //  Updates existing!
-console.log('Updated:', getCourse(newCourseId));
-
-deleteCourse(newCourseId);  // Deletes existing!
-console.log('After Deletion:', getCourse(newCourseId));  // Should be undefined
-
-
-// Test existing trainee (should work)
-joinCourse(87421, [12345]);  
-console.log('After joining existing trainee:', getCourse(87421));
-
-
-// Test leave with existing participant
-leaveCourse(87421, [12345]);  
-console.log('After Leaving:', getCourse(87421));
-
-*/

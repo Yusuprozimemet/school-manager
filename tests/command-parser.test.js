@@ -2,58 +2,6 @@
 import { describe, expect, test } from 'vitest';
 import { parseCommand } from '../src/command-parser.js';
 
-/*
-//course.json
-[
-  {
-    "id": 87421,
-    "name": "Intro to JavaScript Course",
-    "startDate": "2026-02-01",
-    "participants": [
-      12345,
-      12346
-    ]
-  }
-]
-
-// trainees.json
-
-[
-  {
-    "id": 12345,
-    "firstName": "John",
-    "lastName": "Doe"
-  },
-  {
-    "id": 12346,
-    "firstName": "Jane",
-    "lastName": "Smith"
-  }
-]
-
-
-COURSE COMMANDS:
-  course getAll                                → Get all courses
-  course get <id>                              → Get a course by ID
-  course add <name> <startDate>                → Add a new course (Format of startDate: YYYY-MM-DD)
-  course update <id> <name> <startDate>        → Update a course (Format of startDate: YYYY-MM-DD)
-  course delete <id>                           → Delete a course
-  course join <courseId> <traineeId>           → Add trainee to course
-  course leave <courseId> <traineeId>          → Remove trainee from course
-
-TRAINEE COMMANDS:
-  trainee fetchAll                             → Get all trainees
-  trainee fetch <id>                           → Get a trainee by ID
-  trainee add <firstName> <lastName>           → Add a new trainee
-  trainee update <id> <firstName> <lastName>   → Update a trainee
-  trainee delete <id>                          → Delete a trainee
-
-OTHER:
-  help                                         → Show this help menu
-  exit                                         → Quit the application
-
-*/
-
 describe ('getAll courses command', () => {
   test('should parse "course getAll" command correctly', () => {
     // Arrange

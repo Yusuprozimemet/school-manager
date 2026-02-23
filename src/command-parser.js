@@ -19,17 +19,3 @@ export function parseCommand(userInput) {
 }
 
 
-/*
-console.log(parseCommand('course add "test-python" "2026-01-01"'));
-console.log(parseCommand('course getAll'));
-console.log(parseCommand('course get 87421'));
-console.log(parseCommand('course update 87421 "Intro to Python Course" "2026-01-15"'));
-console.log(parseCommand('course delete 87421'));
-console.log(parseCommand('course join 87421 12345'));
-console.log(parseCommand('course leave 87421 12345'));
-console.log(parseCommand('trainee add "Alice" "Johnson"'));
-console.log(parseCommand('trainee fetchAll'));
-console.log(parseCommand('trainee fetch 12345'));
-console.log(parseCommand('trainee update 12345 "Joe" "Patrick"'));
-console.log(parseCommand('trainee delete 12345'));
-*/

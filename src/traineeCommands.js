@@ -124,20 +124,4 @@ export function handleTraineeCommand(subcommand, args) {
   }
 }
 
-/*
 
-addTrainee('test', 'test@example.com');
-console.log('After add:', fetchAllTrainees());  
-
-const idToUpdate = 12347;  
-updateTrainee(idToUpdate, 'updated', 'updated@example.com');
-console.log('After update:', fetchTrainee(idToUpdate));  
-
-deleteTrainee(idToUpdate);
-console.log('After delete:', fetchTrainee(idToUpdate));  
-console.log('Full list after delete:', fetchAllTrainees());  
-
-fetchTrainee(12345);
-fetchAllTrainees();
-
-*/
