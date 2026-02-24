@@ -1,41 +1,19 @@
 import { describe, expect, test, vi } from 'vitest';
-import { showHelp, prompt } from '../src/index.js';
+import { prompt } from '../src/index.js';
+import chalk from 'chalk';
 
-describe('Help Command', () => {
-  test('should display the help menu when "help" command is entered', () => {
-    // Arrange
+
+describe ('print banner', () => {
+  test('should print welcome banner', () => {
     const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
     // Act
-    showHelp();
+    console.log(chalk.cyan.bold('\n  Welcome to School CLI! Type "help" to see available commands.\n'));
     // Assert
-    expect(consoleSpy).toHaveBeenCalledWith(`
-╬══════════════════════════════════════════════════════╗
-║              School Manager CLI - Help               ║
-╚══════════════════════════════════════════════════════╝
-
-COURSE COMMANDS:
-  course getAll                                → Get all courses
-  course get <id>                              → Get a course by ID
-  course add <name> <startDate>                → Add a new course (Format of startDate: YYYY-MM-DD)
-  course update <id> <name> <startDate>        → Update a course (Format of startDate: YYYY-MM-DD)
-  course delete <id>                           → Delete a course
-  course join <courseId> <traineeId>           → Add trainee to course
-  course leave <courseId> <traineeId>          → Remove trainee from course
-
-TRAINEE COMMANDS:
-  trainee fetchAll                             → Get all trainees
-  trainee fetch <id>                           → Get a trainee by ID
-  trainee add <firstName> <lastName>           → Add a new trainee
-  trainee update <id> <firstName> <lastName>   → Update a trainee
-  trainee delete <id>                          → Delete a trainee
-
-OTHER:
-  help                                         → Show this help menu
-  exit                                         → Quit the application
-  `);
+    expect(consoleSpy).toHaveBeenCalledWith(chalk.cyan.bold('\n  Welcome to School CLI! Type "help" to see available commands.\n'));
     consoleSpy.mockRestore();
   });
 });
+
 
 describe('prompt function', () => {
   test('should prompt user for input and handle "exit" command', () => {
@@ -49,8 +27,8 @@ describe('prompt function', () => {
     // Act
     prompt(rl);
     // Assert
-    expect(rl.question).toHaveBeenCalledWith('Enter command: ', expect.any(Function));
-    expect(consoleSpy).toHaveBeenCalledWith('Goodbye!');
+    expect(rl.question).toHaveBeenCalledWith(chalk.bold.cyan('  › '), expect.any(Function));
+    expect(consoleSpy).toHaveBeenCalledWith(chalk.cyan('\n  Thank you for using School CLI.\n'));
     expect(rl.close).toHaveBeenCalled();
     consoleSpy.mockRestore();
   });

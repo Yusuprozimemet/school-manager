@@ -48,7 +48,7 @@ describe('Add Trainee', () => {
    
     const newTrainee = traineesAfter.find(trainee => ((trainee.name ?? trainee.firstName) || '').toLowerCase() === 'laura');
     expect(newTrainee).toBeDefined();
-    expect(((newTrainee.email ?? newTrainee.lastName) || '').toLowerCase()).toBe('jones');
+    expect(((newTrainee.name ?? newTrainee.lastName) || '').toLowerCase()).toBe('jones');
   });
 });
 
@@ -65,7 +65,7 @@ describe('Update Trainee', () => {
     // Assert
     expect(traineeBefore).toBeDefined();
     expect(((traineeAfter.name ?? traineeAfter.firstName) || '').toLowerCase()).toBe('laura');
-    expect(((traineeAfter.email ?? traineeAfter.lastName) || '').toLowerCase()).toBe('jones');
+    expect(((traineeAfter.name ?? traineeAfter.lastName) || '').toLowerCase()).toBe('jones');
   });
 });
 

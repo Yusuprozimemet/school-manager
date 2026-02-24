@@ -24,7 +24,9 @@ export function addTrainee(firstName, lastName) {
   const newTrainee = { id, firstName, lastName };
   // Save the new trainee to the data store by adding it to the existing array of trainees
   saveTraineeData([...trainees, newTrainee]);
-  console.log(`SUCCESS: Trainee "${firstName} ${lastName}" added with ID ${id}`);
+  console.log(
+    `SUCCESS: Trainee "${firstName} ${lastName}" added with ID ${id}`
+  );
 }
 
 export function updateTrainee(id, firstName, lastName) {
@@ -49,13 +51,15 @@ export function updateTrainee(id, firstName, lastName) {
     if (trainee.id === parseInt(id)) {
       firstName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
       lastName = lastName.charAt(0).toUpperCase() + lastName.slice(1);
-      return { id: trainee.id, firstName, lastName };
+      return { ...trainee, firstName, lastName };
     }
     return trainee;
   });
 
   saveTraineeData(updatedTrainees);
-  console.log(`SUCCESS: Trainee with ID ${id} updated to "${firstName} ${lastName}"`);
+  console.log(
+    `SUCCESS: Trainee with ID ${id} updated to "${firstName} ${lastName}"`
+  );
 }
 
 export function deleteTrainee(id) {

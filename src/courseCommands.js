@@ -149,7 +149,9 @@ function joinCourse(courseId, participantIds) {
   saveCourseData(courses);
 
   if (added.length)
-    console.log(`SUCCESS: Trainee(s) ${added.join(', ')} added to course ${courseId}.`);
+    console.log(
+      `SUCCESS: Trainee(s) ${added.join(', ')} added to course ${courseId}.`
+    );
   if (skipped.length)
     console.log(
       `WARNING: Trainee(s) ${skipped.join(', ')} do not exist or are already enrolled.`
@@ -184,7 +186,9 @@ function leaveCourse(courseId, participants) {
   });
 
   saveCourseData(updatedCourses);
-  console.log(`SUCCESS: Trainee(s) ${participants.join(', ')} removed from course ${courseId}.`);
+  console.log(
+    `SUCCESS: Trainee(s) ${participants.join(', ')} removed from course ${courseId}.`
+  );
 }
 
 export function handleCourseCommand(subcommand, args) {
