@@ -3,7 +3,7 @@ import { saveCourseData, loadCourseData, loadTraineeData } from './storage.js';
 function getCourse(id) {
   // check existence
   if (!id) {
-    console.log('Error: id is required. Usage: course get <id>');
+    console.log('ERROR: id is required. Usage: course get <id>');
     return null;
   }
 
@@ -12,7 +12,7 @@ function getCourse(id) {
 
   // match exists
   if (!course) {
-    console.log(`Course with ID ${id} not found.`);
+    console.log(`ERROR: Course with ID ${id} not found.`);
     return null;
   }
 
@@ -26,7 +26,7 @@ function getAllCourses() {
 function addCourse(name, startDate) {
   if (!name || !startDate) {
     console.log(
-      'Error: name and startDate are required. Usage: course add <name> <startDate>'
+      'ERROR: name and startDate are required. Usage: course add <name> <startDate>'
     );
     return;
   }
@@ -53,13 +53,13 @@ function addCourse(name, startDate) {
 
   // Save the new course to the data store by adding it to the existing array of courses
   saveCourseData([...courses, newCourse]);
-  console.log(`✅ Course "${name}" added with ID ${id}`);
+  console.log(`SUCCESS: Course "${name}" added with ID ${id}`);
 }
 
 function updateCourse(id, name, startDate) {
   if (!id || !name || !startDate) {
     console.log(
-      'Error: id, name and startDate are required. Usage: course update <id> <name> <startDate>'
+      'ERROR: id, name and startDate are required. Usage: course update <id> <name> <startDate>'
     );
     return;
   }
@@ -68,7 +68,7 @@ function updateCourse(id, name, startDate) {
   const exists = courses.find((course) => course.id === parseInt(id));
 
   if (!exists) {
-    console.log(`Course with ID ${id} not found.`);
+    console.log(`ERROR: Course with ID ${id} not found.`);
     return;
   }
 
@@ -82,13 +82,13 @@ function updateCourse(id, name, startDate) {
 
   saveCourseData(updatedCourses);
   console.log(
-    `✅ Course with ID ${id} updated to name "${name}" and startDate "${startDate}"`
+    `SUCCESS: Course with ID ${id} updated to name "${name}" and startDate "${startDate}"`
   );
 }
 
 function deleteCourse(id) {
   if (!id) {
-    console.log('Error: id is required. Usage: course delete <id>');
+    console.log('ERROR: id is required. Usage: course delete <id>');
     return;
   }
 
@@ -96,19 +96,19 @@ function deleteCourse(id) {
   const exists = courses.find((course) => course.id === parseInt(id));
 
   if (!exists) {
-    console.log(`Course with ID ${id} not found.`);
+    console.log(`ERROR: Course with ID ${id} not found.`);
     return;
   }
 
   const updatedCourses = courses.filter((course) => course.id !== parseInt(id));
   saveCourseData(updatedCourses);
-  console.log(`✅ Course with ID ${id} deleted.`);
+  console.log(`SUCCESS: Course with ID ${id} deleted.`);
 }
 
 function joinCourse(courseId, participantIds) {
   if (!courseId || !participantIds.length) {
     console.log(
-      'Error: courseId and at least one traineeId are required. Usage: course join <courseId> <traineeId>'
+      'ERROR: courseId and at least one traineeId are required. Usage: course join <courseId> <traineeId>'
     );
     return;
   }
@@ -118,7 +118,7 @@ function joinCourse(courseId, participantIds) {
   const course = courses.find((course) => course.id === parseInt(courseId));
 
   if (!course) {
-    console.log(`Course with ID ${courseId} not found.`);
+    console.log(`ERROR: Course with ID ${courseId} not found.`);
     return;
   }
 
@@ -149,19 +149,17 @@ function joinCourse(courseId, participantIds) {
   saveCourseData(courses);
 
   if (added.length)
-    console.log(
-      `✅ Trainee(s) ${added.join(', ')} added to course ${courseId}.`
-    );
+    console.log(`SUCCESS: Trainee(s) ${added.join(', ')} added to course ${courseId}.`);
   if (skipped.length)
     console.log(
-      `⚠️  Trainee(s) ${skipped.join(', ')} does not exist or already enrolled.`
+      `WARNING: Trainee(s) ${skipped.join(', ')} do not exist or are already enrolled.`
     );
 }
 
 function leaveCourse(courseId, participants) {
   if (!courseId || !participants.length) {
     console.log(
-      'Error: courseId and at least one traineeId are required. Usage: course leave <courseId> <traineeId>'
+      'ERROR: courseId and at least one traineeId are required. Usage: course leave <courseId> <traineeId>'
     );
     return;
   }
@@ -170,7 +168,7 @@ function leaveCourse(courseId, participants) {
   const course = courses.find((course) => course.id === parseInt(courseId));
 
   if (!course) {
-    console.log(`Course with ID ${courseId} not found.`);
+    console.log(`ERROR: Course with ID ${courseId} not found.`);
     return;
   }
 
@@ -186,9 +184,7 @@ function leaveCourse(courseId, participants) {
   });
 
   saveCourseData(updatedCourses);
-  console.log(
-    `✅ Trainee(s) ${participants.join(', ')} removed from course ${courseId}.`
-  );
+  console.log(`SUCCESS: Trainee(s) ${participants.join(', ')} removed from course ${courseId}.`);
 }
 
 export function handleCourseCommand(subcommand, args) {
@@ -214,7 +210,7 @@ export function handleCourseCommand(subcommand, args) {
       return getAllCourses();
     default:
       console.log(
-        'Invalid subcommand for course. Please use add, update, delete, join, leave, get, or getAll.'
+        'ERROR: Invalid subcommand for course. Use: add, update, delete, join, leave, get, getAll.'
       );
       return null;
   }
