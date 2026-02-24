@@ -29,7 +29,6 @@ export function loadTraineeData() {
 export function saveTraineeData(trainees) {
   const data = JSON.stringify(trainees, null, 2);
   fs.writeFileSync(TRAINEE_DATA_FILE_PATH, data, 'utf-8');
-  console.log('Trainee data saved successfully.');
 }
 
 export function loadCourseData() {
@@ -41,5 +40,4 @@ export function loadCourseData() {
 export function saveCourseData(courses) {
   const data = JSON.stringify(courses, null, 2);
   fs.writeFileSync(COURSE_DATA_FILE_PATH, data, 'utf-8');
-  console.log('Course data saved successfully.');
 }

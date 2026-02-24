@@ -3,7 +3,7 @@ import { saveTraineeData, loadTraineeData } from './storage.js';
 export function addTrainee(firstName, lastName) {
   if (!firstName || !lastName) {
     console.log(
-      'Error: firstName and lastName are required. Usage: trainee add <firstName> <lastName>'
+      'ERROR: firstName and lastName are required. Usage: trainee add <firstName> <lastName>'
     );
     return;
   }
@@ -24,13 +24,13 @@ export function addTrainee(firstName, lastName) {
   const newTrainee = { id, firstName, lastName };
   // Save the new trainee to the data store by adding it to the existing array of trainees
   saveTraineeData([...trainees, newTrainee]);
-  console.log(`✅ Trainee "${firstName} ${lastName}" added with ID ${id}`);
+  console.log(`SUCCESS: Trainee "${firstName} ${lastName}" added with ID ${id}`);
 }
 
 export function updateTrainee(id, firstName, lastName) {
   if (!id || !firstName || !lastName) {
     console.log(
-      'Error: id, firstName and lastName are required. Usage: trainee update <id> <firstName> <lastName>'
+      'ERROR: id, firstName and lastName are required. Usage: trainee update <id> <firstName> <lastName>'
     );
     return;
   }
@@ -39,7 +39,7 @@ export function updateTrainee(id, firstName, lastName) {
   const exists = trainees.find((trainee) => trainee.id === parseInt(id));
 
   if (!exists) {
-    console.log(`Trainee with ID ${id} not found.`);
+    console.log(`ERROR: Trainee with ID ${id} not found.`);
     return;
   }
 
@@ -55,12 +55,12 @@ export function updateTrainee(id, firstName, lastName) {
   });
 
   saveTraineeData(updatedTrainees);
-  console.log(`✅ Trainee with ID ${id} updated to "${firstName} ${lastName}"`);
+  console.log(`SUCCESS: Trainee with ID ${id} updated to "${firstName} ${lastName}"`);
 }
 
 export function deleteTrainee(id) {
   if (!id) {
-    console.log('Error: id is required. Usage: trainee delete <id>');
+    console.log('ERROR: id is required. Usage: trainee delete <id>');
     return;
   }
 
@@ -68,7 +68,7 @@ export function deleteTrainee(id) {
   const exists = trainees.find((trainee) => trainee.id === parseInt(id));
 
   if (!exists) {
-    console.log(`Trainee with ID ${id} not found.`);
+    console.log(`ERROR: Trainee with ID ${id} not found.`);
     return;
   }
 
@@ -77,12 +77,12 @@ export function deleteTrainee(id) {
     (trainee) => trainee.id !== parseInt(id)
   );
   saveTraineeData(updatedTrainees);
-  console.log(`✅ Trainee with ID ${id} deleted.`);
+  console.log(`SUCCESS: Trainee with ID ${id} deleted.`);
 }
 
 export function fetchTrainee(id) {
   if (!id) {
-    console.log('Error: id is required. Usage: trainee fetch <id>');
+    console.log('ERROR: id is required. Usage: trainee fetch <id>');
     return null;
   }
 
@@ -90,7 +90,7 @@ export function fetchTrainee(id) {
   const trainee = trainees.find((trainee) => trainee.id === parseInt(id));
 
   if (!trainee) {
-    console.log(`Trainee with ID ${id} not found.`);
+    console.log(`ERROR: Trainee with ID ${id} not found.`);
     return null;
   }
 
@@ -118,7 +118,7 @@ export function handleTraineeCommand(subcommand, args) {
       return fetchAllTrainees();
     default:
       console.log(
-        'Invalid subcommand for trainee. Please use add, update, delete, fetch, or fetchAll.'
+        'ERROR: Invalid subcommand for trainee. Use: add, update, delete, fetch, fetchAll.'
       );
       return null;
   }
