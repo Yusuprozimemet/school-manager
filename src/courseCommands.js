@@ -42,6 +42,9 @@ function addCourse(name, startDate) {
   }
 
   // Create a new course object with the provided id, name, startDate, and empty participants
+  // course add python-beginner 2026-03-09, remove - and capitalize first letter
+
+  name = name.replace(/-/g, ' ');
   name = name.charAt(0).toUpperCase() + name.slice(1);
 
   const newCourse = {
@@ -74,6 +77,7 @@ function updateCourse(id, name, startDate) {
 
   const updatedCourses = courses.map((course) => {
     if (course.id === parseInt(id)) {
+      name = name.replace(/-/g, ' ');
       name = name.charAt(0).toUpperCase() + name.slice(1);
       return { ...course, name, startDate };
     }
@@ -229,3 +233,5 @@ export {
   joinCourse,
   leaveCourse,
 };
+
+

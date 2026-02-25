@@ -1,167 +1,74 @@
 import { parseCommand } from './command-parser.js';
 import { handleCourseCommand } from './courseCommands.js';
 import { handleTraineeCommand } from './traineeCommands.js';
-import * as readline from 'readline'; // Use ES module syntax for readline
-import { fileURLToPath } from 'url'; // Needed to get __filename in ES modules
-import chalk from 'chalk'; // For colored terminal output
-import figlet from 'figlet'; // For ASCII art banners
-import Table from 'cli-table3'; // For nice table formatting in the terminal
+import promptSync from 'prompt-sync';
 
-function printBanner() {
-  console.log(chalk.cyan(figlet.textSync('School CLI', { font: 'Slant' })));
-  console.log(chalk.dim('  Manage your courses and trainees with ease!\n'));
-}
 
-export function showHelp() {
-  console.log(
-    chalk.bold.cyan(
-      '\n╔══════════════════════════════════════════════════════╗'
-    )
-  );
-  console.log(
-    chalk.bold.cyan('║          School CLI  —  Help Menu                    ║')
-  );
-  console.log(
-    chalk.bold.cyan(
-      '╚══════════════════════════════════════════════════════╝\n'
-    )
-  );
+/*
+COURSE COMMANDS:
+  course getAll                                → Get all courses
+  course get <id>                              → Get a course by ID
+  course add <name> <startDate>                → Add a new course (Format of startDate/courseName: YYYY-MM-DD/course-name)
+  course update <id> <name> <startDate>        → Update a course (Format of startDate/courseName: YYYY-MM-DD/course-name)
+  course delete <id>                           → Delete a course
+  course join <courseId> <traineeId>           → Add trainee to course
+  course leave <courseId> <traineeId>          → Remove trainee from course
 
-  console.log(chalk.bold.cyan('  COURSE COMMANDS'));
-  [
-    ['course getAll', 'Get all courses'],
-    ['course get <id>', 'Get a course by ID'],
-    ['course add <CourseName> <startDate>', 'Add a new course (YYYY-MM-DD)'],
-    [
-      'course update <id> <CourseName> <startDate>',
-      'Update a course (YYYY-MM-DD)',
-    ],
-    ['course delete <id>', 'Delete a course'],
-    ['course join <courseId> <traineeId>', 'Add trainee to course'],
-    ['course leave <courseId> <traineeId>', 'Remove trainee from course'],
-  ].forEach(([cmd, desc]) =>
-    console.log(`  ${chalk.green(cmd.padEnd(45))} ${chalk.dim(desc)}`)
-  );
+TRAINEE COMMANDS:
+  trainee fetchAll                             → Get all trainees
+  trainee fetch <id>                           → Get a trainee by ID
+  trainee add <firstName> <lastName>           → Add a new trainee
+  trainee update <id> <firstName> <lastName>   → Update a trainee
+  trainee delete <id>                          → Delete a trainee
 
-  console.log(chalk.bold.cyan('\n  TRAINEE COMMANDS'));
-  [
-    ['trainee fetchAll', 'Get all trainees'],
-    ['trainee fetch <id>', 'Get a trainee by ID'],
-    ['trainee add <firstName> <lastName>', 'Add a new trainee'],
-    ['trainee update <id> <firstName> <lastName>', 'Update a trainee'],
-    ['trainee delete <id>', 'Delete a trainee'],
-  ].forEach(([cmd, desc]) =>
-    console.log(`  ${chalk.green(cmd.padEnd(45))} ${chalk.dim(desc)}`)
-  );
+OTHER:
+  help                                         → Show this help menu
+  exit                                         → Quit the application
 
-  console.log(chalk.bold.cyan('\n  OTHER'));
-  console.log(
-    `  ${chalk.green('help'.padEnd(45))} ${chalk.dim('Show this help menu')}`
-  );
-  console.log(
-    `  ${chalk.green('exit'.padEnd(45))} ${chalk.dim('Quit the application')}`
-  );
-  console.log();
-}
+*/
 
-function printResult(result) {
-  if (!result) return;
 
-  // Array of objects → full table
-  if (
-    Array.isArray(result) &&
-    result.length > 0 &&
-    typeof result[0] === 'object'
-  ) {
-    const table = new Table({
-      head: Object.keys(result[0]).map((k) => chalk.bold.cyan(k)),
-      style: { border: ['dim'] },
-    });
-    result.forEach((row) =>
-      table.push(Object.values(row).map((v) => String(v ?? '')))
-    );
-    console.log(table.toString());
-    return;
+const prompt = promptSync();
+
+console.log('Welcome to the School Manager CLI!');
+console.log('Type "help" for a list of commands, or "exit" to quit.');
+
+while (true) {
+  const userInput = prompt('> ');
+  if (userInput.toLowerCase() === 'exit') {
+    console.log('Thanks for using the School Manager CLI. Goodbye!');
+    break;
   }
 
-  // Single object → key/value table
-  if (typeof result === 'object' && result !== null && !Array.isArray(result)) {
-    const table = new Table({ style: { border: ['dim'] } });
-    Object.entries(result).forEach(([k, v]) =>
-      table.push({ [chalk.bold.cyan(k)]: String(v ?? '') })
-    );
-    console.log(table.toString());
-    return;
+  if (userInput.toLowerCase() === 'help') {
+    console.log('\n');
+    console.log('course getAll                                             →  get all courses');
+    console.log('course get <id>                                           →  get a course by ID');
+    console.log('course add <name> <startDate>                             →  add a new course (Format of startDate/courseName: YYYY-MM-DD/course-name)');
+    console.log('course update <id> <name> <startDate>                     →  update a course (Format of startDate/courseName: YYYY-MM-DD/course-name)');
+    console.log('course delete <id>                                        →  delete a course');
+    console.log('course join <courseId> <traineeId>                        →  add trainee to course');
+    console.log('course leave <courseId> <traineeId>                       →  remove trainee from course');
+    console.log('trainee fetchAll                                          →  get all trainees');
+    console.log('trainee fetch <id>                                        →  get a trainee by ID');
+    console.log('trainee add <firstName> <lastName>                        →  add a new trainee');
+    console.log('trainee update <id> <firstName> <lastName>                →  update a trainee');
+    console.log('trainee delete <id>                                       →  delete a trainee');
+    console.log('\n');
+    continue;
   }
 
-  // Plain string / number
-  console.log(chalk.white(result));
-}
 
-export function prompt(customRl) {
-  const rl =
-    customRl ||
-    readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
-    });
+  const { entity, action, args } = parseCommand(userInput);
 
-  rl.question(chalk.bold.cyan('  › '), (answer) => {
-    const input = answer.trim();
+  if (entity === 'course') {
+    const result = handleCourseCommand(action, args);
+    if (result !== undefined && result !== null) console.log(result);
+  } else if (entity === 'trainee') {
+    const result = handleTraineeCommand(action, args);
+    if (result !== undefined && result !== null) console.log(result);
+  } else {
+    console.log('ERROR: Invalid command. Type "help" for a list of commands.');
+  }
 
-    if (!input) {
-      prompt(rl);
-      return;
-    }
-
-    if (input === 'exit') {
-      console.log(chalk.cyan('\n  Thank you for using School CLI.\n'));
-      rl.close();
-      return;
-    }
-
-    if (input === 'help') {
-      showHelp();
-      prompt(rl);
-      return;
-    }
-
-    try {
-      const cmd = parseCommand(input);
-
-      let result;
-      if (cmd.entity === 'course') {
-        result = handleCourseCommand(cmd.action, cmd.args);
-      } else if (cmd.entity === 'trainee') {
-        result = handleTraineeCommand(cmd.action, cmd.args);
-      } else {
-        console.log(
-          chalk.red(
-            '\n  ERROR: Unknown command. Type "help" to see available commands.\n'
-          )
-        );
-        prompt(rl);
-        return;
-      }
-
-      console.log(chalk.green('\n  SUCCESS: Command completed.\n'));
-      printResult(result);
-    } catch (error) {
-      console.log(
-        chalk.red(`\n  ERROR: Something went wrong: ${error.message}\n`)
-      );
-    }
-
-    console.log();
-    prompt(rl);
-  });
-}
-
-const __filename = fileURLToPath(import.meta.url);
-if (process.argv[1] === __filename) {
-  const help = chalk.bold.green('help');
-  const exit = chalk.bold.red('exit');
-  printBanner();
-  console.log(chalk.dim(`  Type ${help} for commands, ${exit} to quit.\n`));
-  prompt();
 }

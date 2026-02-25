@@ -30,15 +30,13 @@ describe('add course', () => {
     const beforeCourses = courseCommands.getAllCourses();
     
     // Act
-    courseCommands.addCourse('Test Course', '2024-01-01');
+    courseCommands.addCourse('Test-Course', '2024-01-01');
     const newCourse = courseCommands.getAllCourses().slice(-1)[0];
     
     // Assert
     expect(newCourse.name).toBe('Test Course');
     expect(newCourse.startDate).toBe('2024-01-01');
     
-    // Cleanup
-    courseCommands.deleteCourse(newCourse.id);
   });
 });
 
@@ -70,8 +68,7 @@ describe('update course', () => {
     expect(updatedCourse.name).toBe('New Name');
     expect(updatedCourse.startDate).toBe('2024-03-01');
     
-    // Cleanup - restore original
-    courseCommands.updateCourse(course.id, course.name, course.startDate);
+
   });
 });
 
@@ -104,9 +101,7 @@ describe('join course', () => {
     
     // Assert
     expect(updatedCourse.participants).toContain(traineeId);
-    
-    // Cleanup
-    courseCommands.deleteCourse(course.id);
+
   });
 });
 
@@ -125,7 +120,5 @@ describe('leave course', () => {
     // Assert
     expect(updatedCourse.participants).not.toContain(traineeId);
     
-    // Cleanup
-    courseCommands.deleteCourse(course.id);
   });
 });

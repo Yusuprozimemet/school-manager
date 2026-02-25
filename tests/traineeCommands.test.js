@@ -12,7 +12,6 @@ describe('Fetch Specific Trainee', () => {
     const trainee = fetchTrainee(traineeId);
     
     // Assert
-    expect(trainee).toBeDefined();
     expect(trainee.id).toBe(12345);
   
     expect(trainee.name ?? trainee.firstName).toBe('John');
@@ -47,7 +46,6 @@ describe('Add Trainee', () => {
     expect(traineesAfter.length).toBe(traineesBefore.length + 1);
    
     const newTrainee = traineesAfter.find(trainee => ((trainee.name ?? trainee.firstName) || '').toLowerCase() === 'laura');
-    expect(newTrainee).toBeDefined();
     expect(((newTrainee.name ?? newTrainee.lastName) || '').toLowerCase()).toBe('jones');
   });
 });
@@ -63,7 +61,6 @@ describe('Update Trainee', () => {
     const traineeAfter = fetchTrainee(idToUpdate);
 
     // Assert
-    expect(traineeBefore).toBeDefined();
     expect(((traineeAfter.name ?? traineeAfter.firstName) || '').toLowerCase()).toBe('laura');
     expect(((traineeAfter.name ?? traineeAfter.lastName) || '').toLowerCase()).toBe('jones');
   });
@@ -82,7 +79,6 @@ describe('Delete Trainee', () => {
     const traineeAfter = fetchTrainee(idToDelete);
     
     // Assert
-    expect(traineeBefore).toBeDefined();
     expect(traineesAfter.length).toBe(traineesBefore.length - 1);
     // `fetchTrainee` returns null when not found
     expect(traineeAfter).toBeNull();

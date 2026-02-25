@@ -27,22 +27,22 @@ describe ('get course by ID command', () => {
 describe ('add course command', () => {
   test('should parse "course add <name> <startDate>" command correctly', () => {
     // Arrange
-    const input = 'course add "Presentation Skills" "2026-02-01"';
+    const input = 'course add Presentation-Skills 2026-02-01';
     // Act
     const result = parseCommand(input);
     // Assert
-    expect(result).toEqual({ entity: 'course', action: 'add', args: ['Presentation Skills', '2026-02-01'] });
+    expect(result).toEqual({ entity: 'course', action: 'add', args: ['Presentation-Skills', '2026-02-01'] });
   });
 });
 
 describe ('update course command', () => {
   test('should parse "course update <id> <name> <startDate>" command correctly', () => {
     // Arrange
-    const input = 'course update 87421 "Advanced JavaScript" "2026-03-01"';
+    const input = 'course update 87421 Advanced-JavaScript 2026-03-01';
     // Act
     const result = parseCommand(input);
     // Assert
-    expect(result).toEqual({ entity: 'course', action: 'update', args: ['87421', 'Advanced JavaScript', '2026-03-01'] });
+    expect(result).toEqual({ entity: 'course', action: 'update', args: ['87421', 'Advanced-JavaScript', '2026-03-01'] });
   });
 });
 
@@ -104,7 +104,7 @@ describe ('fetch trainee by ID command', () => {
 describe ('add trainee command', () => {
   test('should parse "trainee add <firstName> <lastName>" command correctly', () => {
     // Arrange
-    const input = 'trainee add "Alice" "Johnson"';
+    const input = 'trainee add Alice Johnson';
     // Act
     const result = parseCommand(input);
     // Assert
@@ -115,7 +115,7 @@ describe ('add trainee command', () => {
 describe ('update trainee command', () => {
   test('should parse "trainee update <id> <firstName> <lastName>" command correctly', () => {
     // Arrange
-    const input = 'trainee update 12345 "Alice" "Johnson"';
+    const input = 'trainee update 12345 Alice Johnson';
     // Act
     const result = parseCommand(input);
     // Assert

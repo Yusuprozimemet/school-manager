@@ -3,7 +3,7 @@ import { saveTraineeData, loadTraineeData } from './storage.js';
 export function addTrainee(firstName, lastName) {
   if (!firstName || !lastName) {
     console.log(
-      'ERROR: firstName and lastName are required. Usage: trainee add <firstName> <lastName>'
+      'ERROR: firstName and lastName are required.'
     );
     return;
   }
@@ -32,7 +32,7 @@ export function addTrainee(firstName, lastName) {
 export function updateTrainee(id, firstName, lastName) {
   if (!id || !firstName || !lastName) {
     console.log(
-      'ERROR: id, firstName and lastName are required. Usage: trainee update <id> <firstName> <lastName>'
+      'ERROR: id, firstName and lastName are required.'
     );
     return;
   }
@@ -64,7 +64,7 @@ export function updateTrainee(id, firstName, lastName) {
 
 export function deleteTrainee(id) {
   if (!id) {
-    console.log('ERROR: id is required. Usage: trainee delete <id>');
+    console.log('ERROR: id is required.');
     return;
   }
 
@@ -86,7 +86,7 @@ export function deleteTrainee(id) {
 
 export function fetchTrainee(id) {
   if (!id) {
-    console.log('ERROR: id is required. Usage: trainee fetch <id>');
+    console.log('ERROR: id is required.');
     return null;
   }
 
@@ -127,3 +127,5 @@ export function handleTraineeCommand(subcommand, args) {
       return null;
   }
 }
+
+
